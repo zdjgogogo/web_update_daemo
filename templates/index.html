@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>django-websocket</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">//<![CDATA[
+    $(function () {
+        var socket = new WebSocket("ws://" + window.location.host + "/update");
+        $('#send_message').click(function () {
+
+            $('#messagecontainer').empty();
+                socket.send($('#message').val());
+        });
+            // socket.onopen = function () {
+            //         socket.send($('#message').val());//发送数据到服务端
+            // }
+            socket.onmessage = function (e) {
+                console.log('message: ' + e.data);//打印服务端返回的数据
+                $('#messagecontainer').append('<p>' + e.data + '</p>');
+            };
+
+    });
+    //]]></script>
+</head>
+<body>
+<br>
+<input type="text" id="message" value=""/>
+<button type="button" id="send_message">提交</button>
+<h3>输出结果:</h3>
+<div id="messagecontainer"></div>
+</body>
+</html>
